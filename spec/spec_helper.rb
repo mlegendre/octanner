@@ -36,16 +36,6 @@ Capybara.configure do |config|
 end
 
 RSpec.configure do |config|
-  config.before do |scenario|
-    puts 'Using Selenium'
-      browser = ENV.fetch('BROWSER', :chrome).downcase.to_sym
-      Capybara.register_driver :selenium do |app|
-        Capybara::Selenium::Driver.new(app, browser: browser)
-      end
-      @driver = Capybara.current_session.driver
-    end
-  end
-
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
   config.formatter = :documentation
@@ -72,4 +62,14 @@ RSpec.configure do |config|
     end
     @driver.quit
   end
-end
+  config.before do |scenario|
+    puts 'Using Selenium'
+      browser = ENV.fetch('BROWSER', :chrome).downcase.to_sym
+      Capybara.register_driver :selenium do |app|
+        Capybara::Selenium::Driver.new(app, browser: browser)
+      end
+      @driver = Capybara.current_session.driver
+    end
+  end
+
+
